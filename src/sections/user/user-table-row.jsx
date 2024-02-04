@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Stack from '@mui/material/Stack';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
@@ -16,10 +14,8 @@ import Iconify from 'src/components/iconify';
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
-  selected,
   name,
-  company,
-  role,
+  category,
   status,
   handleClick,
 }) {
@@ -35,28 +31,21 @@ export default function UserTableRow({
 
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
-        <TableCell padding="checkbox">
-          <Checkbox disableRipple checked={selected} onChange={handleClick} />
-        </TableCell>
+      <TableRow hover tabIndex={-1} >
 
-        <TableCell component="th" scope="row" padding="none">
-          <Stack direction="row" alignItems="center" spacing={2}>
+        <TableCell component="th" scope="row">
             <Typography variant="subtitle2" noWrap>
               {name}
             </Typography>
-          </Stack>
         </TableCell>
 
-        <TableCell>{company}</TableCell>
-
-        <TableCell>{role}</TableCell>
+        <TableCell>{category}</TableCell>
 
         <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+          <Label color={(status !== 'ativo' && 'error') || 'success'}>{status}</Label>
         </TableCell>
 
-        <TableCell align="right">
+        <TableCell >
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
@@ -75,12 +64,12 @@ export default function UserTableRow({
       >
         <MenuItem onClick={handleCloseMenu}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
+          Editar
         </MenuItem>
 
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
+          Deletar
         </MenuItem>
       </Popover>
     </>
@@ -88,10 +77,8 @@ export default function UserTableRow({
 }
 
 UserTableRow.propTypes = {
-  company: PropTypes.any,
+  category: PropTypes.any,
   handleClick: PropTypes.func,
   name: PropTypes.any,
-  role: PropTypes.any,
-  selected: PropTypes.any,
   status: PropTypes.string,
 };
