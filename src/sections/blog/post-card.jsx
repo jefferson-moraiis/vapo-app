@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
@@ -9,16 +7,16 @@ import { alpha } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import { fDate } from 'src/utils/format-time';
-import { fShortenNumber } from 'src/utils/format-number';
+import { fDate } from '../../utils/format-time';
+import { fShortenNumber } from '../../utils/format-number';
 
-import Iconify from 'src/components/iconify';
-import SvgColor from 'src/components/svg-color';
-
-// ----------------------------------------------------------------------
+import { Iconify } from '../../components/iconify';
+import { SvgColor } from '../../components/svg-color';
 
 export default function PostCard({ post, index }) {
-  const { cover, title, view, comment, share, author, createdAt } = post;
+  const {
+    cover, title, view, comment, share, author, createdAt,
+  } = post;
 
   const latestPostLarge = index === 0;
 
@@ -93,7 +91,11 @@ export default function PostCard({ post, index }) {
             }),
           }}
         >
-          <Iconify width={16} icon={info.icon} sx={{ mr: 0.5 }} />
+          <Iconify
+            width={16}
+            icon={info.icon}
+            sx={{ mr: 0.5 }}
+          />
           <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
         </Stack>
       ))}
@@ -149,7 +151,11 @@ export default function PostCard({ post, index }) {
   );
 
   return (
-    <Grid xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
+    <Grid
+      xs={12}
+      sm={latestPostLarge ? 12 : 6}
+      md={latestPostLarge ? 6 : 3}
+    >
       <Card>
         <Box
           sx={{
@@ -201,8 +207,3 @@ export default function PostCard({ post, index }) {
     </Grid>
   );
 }
-
-PostCard.propTypes = {
-  post: PropTypes.object.isRequired,
-  index: PropTypes.number,
-};

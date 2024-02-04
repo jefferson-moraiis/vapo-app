@@ -52,7 +52,7 @@ function SwipeableTextMobileStepper() {
   };
 
   return (
-    <Box >
+    <Box>
       <AutoPlaySwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={activeStep}
@@ -82,7 +82,7 @@ function SwipeableTextMobileStepper() {
         steps={maxSteps}
         position="static"
         activeStep={activeStep}
-        nextButton={
+        nextButton={(
           <Button
             size="small"
             onClick={handleNext}
@@ -94,16 +94,20 @@ function SwipeableTextMobileStepper() {
               <KeyboardArrowRight />
             )}
           </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+        )}
+        backButton={(
+          <Button
+            size="small"
+            onClick={handleBack}
+            disabled={activeStep === 0}
+          >
             {theme.direction === 'rtl' ? (
               <KeyboardArrowRight />
             ) : (
               <KeyboardArrowLeft />
             )}
           </Button>
-        }
+        )}
       />
     </Box>
   );

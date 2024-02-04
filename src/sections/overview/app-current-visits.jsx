@@ -1,14 +1,10 @@
-import PropTypes from 'prop-types';
-
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import { styled, useTheme } from '@mui/material/styles';
 
-import { fNumber } from 'src/utils/format-number';
+import { fNumber } from '../../utils/format-number';
 
-import Chart, { useChart } from 'src/components/chart';
-
-// ----------------------------------------------------------------------
+import Chart, { useChart } from '../../components/chart';
 
 const CHART_HEIGHT = 400;
 
@@ -17,7 +13,7 @@ const LEGEND_HEIGHT = 72;
 const StyledChart = styled(Chart)(({ theme }) => ({
   height: CHART_HEIGHT,
   '& .apexcharts-canvas, .apexcharts-inner, svg, foreignObject': {
-    height: `100% !important`,
+    height: '100% !important',
   },
   '& .apexcharts-legend': {
     height: LEGEND_HEIGHT,
@@ -26,9 +22,9 @@ const StyledChart = styled(Chart)(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
-export default function AppCurrentVisits({ title, subheader, chart, ...other }) {
+export default function AppCurrentVisits({
+  title, subheader, chart, ...other
+}) {
   const theme = useTheme();
 
   const { colors, series, options } = chart;
@@ -80,7 +76,11 @@ export default function AppCurrentVisits({ title, subheader, chart, ...other }) 
 
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={subheader} sx={{ mb: 5 }} />
+      <CardHeader
+        title={title}
+        subheader={subheader}
+        sx={{ mb: 5 }}
+      />
 
       <StyledChart
         dir="ltr"
@@ -93,9 +93,3 @@ export default function AppCurrentVisits({ title, subheader, chart, ...other }) 
     </Card>
   );
 }
-
-AppCurrentVisits.propTypes = {
-  chart: PropTypes.object,
-  subheader: PropTypes.string,
-  title: PropTypes.string,
-};

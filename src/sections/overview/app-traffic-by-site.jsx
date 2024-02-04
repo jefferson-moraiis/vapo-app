@@ -1,19 +1,20 @@
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 
-import { fShortenNumber } from 'src/utils/format-number';
+import { fShortenNumber } from '../../utils/format-number';
 
-// ----------------------------------------------------------------------
-
-export default function AppTrafficBySite({ title, subheader, list, ...other }) {
+export default function AppTrafficBySite({
+  title, subheader, list, ...other
+}) {
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={subheader} />
+      <CardHeader
+        title={title}
+        subheader={subheader}
+      />
 
       <Box
         sx={{
@@ -33,7 +34,10 @@ export default function AppTrafficBySite({ title, subheader, list, ...other }) {
 
             <Typography variant="h6">{fShortenNumber(site.value)}</Typography>
 
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            <Typography
+              variant="body2"
+              sx={{ color: 'text.secondary' }}
+            >
               {site.name}
             </Typography>
           </Paper>
@@ -42,9 +46,3 @@ export default function AppTrafficBySite({ title, subheader, list, ...other }) {
     </Card>
   );
 }
-
-AppTrafficBySite.propTypes = {
-  title: PropTypes.string,
-  subheader: PropTypes.string,
-  list: PropTypes.array.isRequired,
-};

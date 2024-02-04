@@ -1,12 +1,8 @@
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from '../../hooks/use-responsive';
 
 import { NAV, HEADER } from './config-layout';
-
-// ----------------------------------------------------------------------
 
 const SPACING = 8;
 
@@ -35,8 +31,3 @@ export default function Main({ children, sx, ...other }) {
     </Box>
   );
 }
-
-Main.propTypes = {
-  children: PropTypes.node,
-  sx: PropTypes.object,
-};

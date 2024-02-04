@@ -7,7 +7,7 @@ export const TelephoneMaskCustom = React.forwardRef((props, ref) => {
   return (
     <IMaskInput
       {...other}
-      mask="(00) 0000-0000"
+      mask="(00) 00000-0000"
       inputRef={ref}
       onAccept={(value) => onChange({ target: { name: props.name, value } })}
       overwrite

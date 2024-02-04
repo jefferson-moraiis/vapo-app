@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -9,20 +8,18 @@ import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
 
-import { usePathname } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
+import { usePathname } from '../../routes/hooks';
+import { RouterLink } from '../../routes/components';
 
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from '../../hooks/use-responsive';
 
-import { account } from 'src/_mock/account';
+import { account } from '../../_mock/account';
 
-import Logo from 'src/components/logo';
-import Scrollbar from 'src/components/scrollbar';
+import { Logo } from '../../components/logo';
+import { Scrollbar } from '../../components/scrollbar';
 
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
-
-// ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
@@ -33,7 +30,6 @@ export default function Nav({ openNav, onCloseNav }) {
     if (openNav) {
       onCloseNav();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   const renderAccount = (
@@ -49,12 +45,18 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar
+        src={account.photoURL}
+        alt="photoURL"
+      />
 
       <Box sx={{ ml: 2 }}>
         <Typography variant="subtitle2">{account.displayName}</Typography>
 
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        <Typography
+          variant="body2"
+          sx={{ color: 'text.secondary' }}
+        >
           {account.role}
         </Typography>
       </Box>
@@ -62,13 +64,19 @@ export default function Nav({ openNav, onCloseNav }) {
   );
 
   const renderMenu = (
-    <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
+    <Stack
+      component="nav"
+      spacing={0.5}
+      sx={{ px: 2 }}
+    >
       {navConfig.map((item) => (
-        <NavItem key={item.title} item={item} />
+        <NavItem
+          key={item.title}
+          item={item}
+        />
       ))}
     </Stack>
   );
-
 
   const renderContent = (
     <Scrollbar
@@ -127,13 +135,6 @@ export default function Nav({ openNav, onCloseNav }) {
   );
 }
 
-Nav.propTypes = {
-  openNav: PropTypes.bool,
-  onCloseNav: PropTypes.func,
-};
-
-// ----------------------------------------------------------------------
-
 function NavItem({ item }) {
   const pathname = usePathname();
 
@@ -160,15 +161,17 @@ function NavItem({ item }) {
         }),
       }}
     >
-      <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
+      <Box
+        component="span"
+        sx={{ width: 24, height: 24, mr: 2 }}
+      >
         {item.icon}
       </Box>
 
-      <Box component="span">{item.title} </Box>
+      <Box component="span">
+        {item.title}
+        {' '}
+      </Box>
     </ListItemButton>
   );
 }
-
-NavItem.propTypes = {
-  item: PropTypes.object,
-};

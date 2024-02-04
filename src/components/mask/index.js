@@ -1,2 +1,2 @@
-export * from './TelePhone'
-export * from './PhoneMask'
+export * from './TelePhone';
+export * from './PhoneMask';

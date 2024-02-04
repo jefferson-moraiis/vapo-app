@@ -8,11 +8,9 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 
-import { bgBlur } from 'src/theme/css';
+import { bgBlur } from '../../../theme/css';
 
-import Iconify from 'src/components/iconify';
-
-// ----------------------------------------------------------------------
+import { Iconify } from '../../../components/iconify';
 
 const HEADER_MOBILE = 64;
 const HEADER_DESKTOP = 92;
@@ -37,8 +35,6 @@ const StyledSearchbar = styled('div')(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
 export default function Searchbar() {
   const [open, setOpen] = useState(false);
 
@@ -59,24 +55,32 @@ export default function Searchbar() {
           </IconButton>
         )}
 
-        <Slide direction="down" in={open} mountOnEnter unmountOnExit>
+        <Slide
+          direction="down"
+          in={open}
+          mountOnEnter
+          unmountOnExit
+        >
           <StyledSearchbar>
             <Input
               autoFocus
               fullWidth
               disableUnderline
               placeholder="Search…"
-              startAdornment={
+              startAdornment={(
                 <InputAdornment position="start">
                   <Iconify
                     icon="eva:search-fill"
                     sx={{ color: 'text.disabled', width: 20, height: 20 }}
                   />
                 </InputAdornment>
-              }
+              )}
               sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
             />
-            <Button variant="contained" onClick={handleClose}>
+            <Button
+              variant="contained"
+              onClick={handleClose}
+            >
               Search
             </Button>
           </StyledSearchbar>

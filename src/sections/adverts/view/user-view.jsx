@@ -23,7 +23,7 @@ import DialogContent from '@mui/material/DialogContent';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { Scrollbar } from '../../../components/scrollbar';
+import Scrollbar from '../../../components/scrollbar';
 import { PhoneMaskCustom, TelephoneMaskCustom } from '../../../components/mask';
 import { Iconify } from '../../../components/iconify';
 
@@ -169,13 +169,7 @@ export default function UserPage() {
   const addAdverts = async (newAdvert) => {
     adverts.push(newAdvert);
     setAdverts(adverts);
-    formik.resetForm();
     setOpen(false);
-  };
-
-  const handleDelete = (index) => {
-    const newData = adverts.filter((_, i) => i !== index);
-    setAdverts(newData);
   };
 
   const notFound = !dataFiltered.length && !!filterName;
@@ -283,7 +277,7 @@ export default function UserPage() {
 
           <Scrollbar>
             <TableContainer sx={{ overflow: 'unset' }}>
-              <Table sx={{ minWidth: '100%vw' }}>
+              <Table sx={{ minWidth: 800 }}>
                 <UserTableHead
                   order={order}
                   orderBy={orderBy}
@@ -302,16 +296,13 @@ export default function UserPage() {
                 <TableBody>
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => (
+                    .map((row) => (
                       <UserTableRow
-                        key={index}
                         name={row.nameCommercial}
                         role={row.role}
                         status="ativo"
                         category={row.category}
                         handleClick={(event) => handleClick(event, row.name)}
-                        index={index}
-                        handleClickDelete={handleDelete}
                       />
                     ))}
 
@@ -412,10 +403,10 @@ export default function UserPage() {
                           sx={{ width: 200, height: 200 }}
                         />
                       </Button>
-                      {formik.touched.imageBase64 && formik.errors.imageBase64 && (
-                        <div style={{ color: 'red' }}>{formik.errors.imageBase64}</div>
-                      )}
                     </label>
+                    {formik.touched.imageBase64 && formik.errors.imageBase64 && (
+                      <div style={{ color: 'red' }}>{formik.errors.imageBase64}</div>
+                    )}
                     <TextField
                       required
                       error={!!(formik.touched.nameCommercial && formik.errors.nameCommercial)}
@@ -469,6 +460,7 @@ export default function UserPage() {
                       value={formik.values.subCategory}
                     />
                     <TextField
+                      required
                       error={!!(formik.touched.phone && formik.errors.phone)}
                       fullWidth
                       helperText={formik.touched.phone && formik.errors.phone}

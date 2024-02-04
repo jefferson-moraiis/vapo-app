@@ -6,9 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { listClasses } from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 
-import Iconify from 'src/components/iconify';
-
-// ----------------------------------------------------------------------
+import { Iconify } from '../../components/iconify';
 
 const SORT_OPTIONS = [
   { value: 'featured', label: 'Featured' },
@@ -37,7 +35,11 @@ export default function ShopProductSort() {
         endIcon={<Iconify icon={open ? 'eva:chevron-up-fill' : 'eva:chevron-down-fill'} />}
       >
         Sort By:&nbsp;
-        <Typography component="span" variant="subtitle2" sx={{ color: 'text.secondary' }}>
+        <Typography
+          component="span"
+          variant="subtitle2"
+          sx={{ color: 'text.secondary' }}
+        >
           Newest
         </Typography>
       </Button>
@@ -59,7 +61,11 @@ export default function ShopProductSort() {
         }}
       >
         {SORT_OPTIONS.map((option) => (
-          <MenuItem key={option.value} selected={option.value === 'newest'} onClick={handleClose}>
+          <MenuItem
+            key={option.value}
+            selected={option.value === 'newest'}
+            onClick={handleClose}
+          >
             {option.label}
           </MenuItem>
         ))}

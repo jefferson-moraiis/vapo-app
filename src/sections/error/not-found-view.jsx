@@ -3,11 +3,9 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { RouterLink } from 'src/routes/components';
+import { RouterLink } from '../../routes/components';
 
-import Logo from 'src/components/logo';
-
-// ----------------------------------------------------------------------
+import { Logo } from '../../components/logo';
 
 export default function NotFoundView() {
   const renderHeader = (
@@ -44,7 +42,10 @@ export default function NotFoundView() {
             justifyContent: 'center',
           }}
         >
-          <Typography variant="h3" sx={{ mb: 3 }}>
+          <Typography
+            variant="h3"
+            sx={{ mb: 3 }}
+          >
             Sorry, page not found!
           </Typography>
 
@@ -63,7 +64,12 @@ export default function NotFoundView() {
             }}
           />
 
-          <Button href="/" size="large" variant="contained" component={RouterLink}>
+          <Button
+            href="/"
+            size="large"
+            variant="contained"
+            component={RouterLink}
+          >
             Go to Home
           </Button>
         </Box>

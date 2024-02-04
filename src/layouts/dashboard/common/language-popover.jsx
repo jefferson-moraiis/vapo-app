@@ -5,8 +5,6 @@ import Popover from '@mui/material/Popover';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 
-// ----------------------------------------------------------------------
-
 const LANGS = [
   {
     value: 'en',
@@ -24,8 +22,6 @@ const LANGS = [
     icon: '/assets/icons/ic_flag_fr.svg',
   },
 ];
-
-// ----------------------------------------------------------------------
 
 export default function LanguagePopover() {
   const [open, setOpen] = useState(null);
@@ -50,7 +46,10 @@ export default function LanguagePopover() {
           }),
         }}
       >
-        <img src={LANGS[0].icon} alt={LANGS[0].label} />
+        <img
+          src={LANGS[0].icon}
+          alt={LANGS[0].label}
+        />
       </IconButton>
 
       <Popover
@@ -75,7 +74,12 @@ export default function LanguagePopover() {
             onClick={() => handleClose()}
             sx={{ typography: 'body2', py: 1 }}
           >
-            <Box component="img" alt={option.label} src={option.icon} sx={{ width: 28, mr: 2 }} />
+            <Box
+              component="img"
+              alt={option.label}
+              src={option.icon}
+              sx={{ width: 28, mr: 2 }}
+            />
 
             {option.label}
           </MenuItem>

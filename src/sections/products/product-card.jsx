@@ -1,17 +1,13 @@
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { fCurrency } from 'src/utils/format-number';
+import { ColorPreview } from '../../components/color-utils';
+import { fCurrency } from '../../utils/format-number';
 
-import Label from 'src/components/label';
-import { ColorPreview } from 'src/components/color-utils';
-
-// ----------------------------------------------------------------------
+import { Label } from '../../components/label';
 
 export default function ShopProductCard({ product }) {
   const renderStatus = (
@@ -70,12 +66,24 @@ export default function ShopProductCard({ product }) {
         {renderImg}
       </Box>
 
-      <Stack spacing={2} sx={{ p: 3 }}>
-        <Link color="inherit" underline="hover" variant="subtitle2" noWrap>
+      <Stack
+        spacing={2}
+        sx={{ p: 3 }}
+      >
+        <Link
+          color="inherit"
+          underline="hover"
+          variant="subtitle2"
+          noWrap
+        >
           {product.name}
         </Link>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <ColorPreview colors={product.colors} />
           {renderPrice}
         </Stack>
@@ -83,7 +91,3 @@ export default function ShopProductCard({ product }) {
     </Card>
   );
 }
-
-ShopProductCard.propTypes = {
-  product: PropTypes.object,
-};

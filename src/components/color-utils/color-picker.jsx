@@ -1,16 +1,15 @@
-import PropTypes from 'prop-types';
 import { forwardRef, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 
-import Iconify from '../iconify';
-
-// ----------------------------------------------------------------------
+import { Iconify } from '../iconify';
 
 const ColorPicker = forwardRef(
-  ({ colors, selected, onSelectColor, limit = 'auto', sx, ...other }, ref) => {
+  ({
+    colors, selected, onSelectColor, limit = 'auto', sx, ...other
+  }, ref) => {
     const singleSelect = typeof selected === 'string';
 
     const handleSelect = useCallback(
@@ -27,7 +26,7 @@ const ColorPicker = forwardRef(
           onSelectColor(newSelected);
         }
       },
-      [onSelectColor, selected, singleSelect]
+      [onSelectColor, selected, singleSelect],
     );
 
     return (
@@ -73,10 +72,9 @@ const ColorPicker = forwardRef(
                     transform: 'scale(1.3)',
                     boxShadow: `4px 4px 8px 0 ${alpha(color, 0.48)}`,
                     outline: `solid 2px ${alpha(color, 0.08)}`,
-                    transition: (theme) =>
-                      theme.transitions.create('all', {
-                        duration: theme.transitions.duration.shortest,
-                      }),
+                    transition: (theme) => theme.transitions.create('all', {
+                      duration: theme.transitions.duration.shortest,
+                    }),
                   }),
                 }}
               >
@@ -85,10 +83,9 @@ const ColorPicker = forwardRef(
                   icon="eva:checkmark-fill"
                   sx={{
                     color: (theme) => theme.palette.getContrastText(color),
-                    transition: (theme) =>
-                      theme.transitions.create('all', {
-                        duration: theme.transitions.duration.shortest,
-                      }),
+                    transition: (theme) => theme.transitions.create('all', {
+                      duration: theme.transitions.duration.shortest,
+                    }),
                   }}
                 />
               </Stack>
@@ -97,15 +94,7 @@ const ColorPicker = forwardRef(
         })}
       </Stack>
     );
-  }
+  },
 );
-
-ColorPicker.propTypes = {
-  colors: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-  limit: PropTypes.number,
-  onSelectColor: PropTypes.func,
-  selected: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-  sx: PropTypes.object,
-};
 
 export default ColorPicker;

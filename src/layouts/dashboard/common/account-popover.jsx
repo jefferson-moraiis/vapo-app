@@ -9,9 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import { account } from 'src/_mock/account';
-
-// ----------------------------------------------------------------------
+import { account } from '../../../_mock/account';
 
 const MENU_OPTIONS = [
   {
@@ -27,8 +25,6 @@ const MENU_OPTIONS = [
     icon: 'eva:settings-2-fill',
   },
 ];
-
-// ----------------------------------------------------------------------
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
@@ -50,8 +46,7 @@ export default function AccountPopover() {
           height: 40,
           background: (theme) => alpha(theme.palette.grey[500], 0.08),
           ...(open && {
-            background: (theme) =>
-              `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+            background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
           }),
         }}
       >
@@ -84,10 +79,17 @@ export default function AccountPopover() {
         }}
       >
         <Box sx={{ my: 1.5, px: 2 }}>
-          <Typography variant="subtitle2" noWrap>
+          <Typography
+            variant="subtitle2"
+            noWrap
+          >
             {account.displayName}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          <Typography
+            variant="body2"
+            sx={{ color: 'text.secondary' }}
+            noWrap
+          >
             {account.email}
           </Typography>
         </Box>
@@ -95,7 +97,10 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
+          <MenuItem
+            key={option.label}
+            onClick={handleClose}
+          >
             {option.label}
           </MenuItem>
         ))}
