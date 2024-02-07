@@ -7,6 +7,9 @@ import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
+import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useAuth } from '../../contexts';
 
 import { usePathname } from '../../routes/hooks';
 import { RouterLink } from '../../routes/components';
@@ -21,9 +24,14 @@ import { Scrollbar } from '../../components/scrollbar';
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
-export default function Nav({ openNav, onCloseNav }) {
-  const pathname = usePathname();
+const authenticatedUser = {
+  displayName: 'Admin User',
+  role: 'user', // Este usuário é um administrador
+};
 
+export default function Nav({ openNav, onCloseNav }) {
+  const { logout } = useAuth();
+  const pathname = usePathname();
   const upLg = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -66,16 +74,34 @@ export default function Nav({ openNav, onCloseNav }) {
   const renderMenu = (
     <Stack
       component="nav"
-      spacing={0.5}
+      spacing={2}
       sx={{ px: 2 }}
     >
-      {navConfig.map((item) => (
+      {navConfig.filter((item) => {
+        // Filtrar itens com base na necessidade de autenticação e na função do usuário
+        if (item.requiresAuth && !authenticatedUser) return false;
+        if (item.requiredRole && (!authenticatedUser || authenticatedUser.role !== item.requiredRole)) return false;
+        return true;
+      }).map((item) => (
         <NavItem
           key={item.title}
           item={item}
         />
       ))}
     </Stack>
+  );
+
+  const renderLogoutButton = (
+    <Box sx={{ p: 2 }}>
+      <Button
+        fullWidth
+        color="primary"
+        onClick={logout}
+        startIcon={<LogoutIcon />}
+      >
+        Logout
+      </Button>
+    </Box>
   );
 
   const renderContent = (
@@ -96,7 +122,7 @@ export default function Nav({ openNav, onCloseNav }) {
       {renderMenu}
 
       <Box sx={{ flexGrow: 1 }} />
-
+      {renderLogoutButton}
     </Scrollbar>
   );
 

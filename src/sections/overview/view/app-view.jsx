@@ -1,5 +1,7 @@
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
@@ -58,7 +60,15 @@ const data = [
     icon: '/assets/icons/glass/ic_glass_bag.png',
   },
 ];
+const style = {
+  position: 'fixed',
+  bottom: 20,
+  left: '50%',
+  transform: 'translateX(-50%)',
+};
+
 export default function AppView() {
+  const navigate = useNavigate();
   const [likes, setLikes] = useState({});
   const handleLikeClick = async (item, index) => {
     const isLiked = !likes[index];
@@ -102,7 +112,7 @@ export default function AppView() {
       >
         {data.map((item, index) => (
           <Grid
-            key={item.id}
+            key={index}
             xs={12}
             sm={6}
             md={4}
@@ -175,6 +185,17 @@ export default function AppView() {
           </Grid>
         ))}
       </Grid>
+      <Fab
+        color="primary"
+        variant="extended"
+        aria-label="add"
+        style={style}
+        onClick={() => navigate('/new-advert')}
+      >
+        <AddIcon />
+        Anunciar
+      </Fab>
+
     </Container>
   );
 }

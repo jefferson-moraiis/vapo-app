@@ -6,7 +6,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 
 import { visuallyHidden } from './utils';
 
-function UserTableHead({
+function AdvertTableHead({
   order,
   orderBy,
   headLabel,
@@ -45,4 +45,4 @@ function UserTableHead({
     </TableHead>
   );
 }
-export default UserTableHead;
+export default AdvertTableHead;

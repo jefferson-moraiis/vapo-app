@@ -46,5 +46,8 @@ module.exports = {
     'no-console': 'off',
     'no-unused-vars': 'off',
     'react/no-unescaped-entities': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
+    'react/jsx-filename-extension': 'off',
+    'react/function-component-definition': 'off',
   },
 };

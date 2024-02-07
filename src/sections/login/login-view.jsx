@@ -12,6 +12,9 @@ import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
+import { useLocation } from 'react-router-dom';
+
+import { useAuth } from '../../contexts';
 
 import { useRouter } from '../../routes/hooks';
 
@@ -21,28 +24,43 @@ import { Logo } from '../../components/logo';
 import { Iconify } from '../../components/iconify';
 
 export default function LoginView() {
+  const location = useLocation();
+  console.log('🚀 ~ handleLogin ~ location.state?.from?.pathname:', location.state);
   const theme = useTheme();
-
+  const auth = useAuth();
   const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    await auth.signIn(email, password);
+    console.log(auth.isAuthenticated);
 
-  const handleClick = () => {
-    router.push('/dashboard');
+    if (auth.isAuthenticated) {
+      const from = location.state?.from?.pathname || '/';
+      console.log('🚀 ~ handleLogin ~ from:', from);
+      router.push(from);
+    }
   };
 
   const renderForm = (
     <>
       <Stack spacing={3}>
         <TextField
-          name="email"
-          label="Email address"
+          fullWidth
+          label="Email"
+          variant="outlined"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <TextField
           name="password"
-          label="Password"
+          label="Senha"
           type={showPassword ? 'text' : 'password'}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -77,8 +95,8 @@ export default function LoginView() {
         size="large"
         type="submit"
         variant="contained"
-        color="inherit"
-        onClick={handleClick}
+        color="primary"
+        onClick={handleLogin}
       >
         Login
       </LoadingButton>
@@ -115,18 +133,18 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Sign in to Minimal</Typography>
+          <Typography variant="h4" alignText="center">Entrar</Typography>
 
           <Typography
             variant="body2"
             sx={{ mt: 2, mb: 5 }}
           >
-            Don’t have an account?
+            Não tenho conta?
             <Link
               variant="subtitle2"
               sx={{ ml: 0.5 }}
             >
-              Get started
+              Cadastre-se
             </Link>
           </Typography>
 
@@ -147,31 +165,6 @@ export default function LoginView() {
               />
             </Button>
 
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify
-                icon="eva:facebook-fill"
-                color="#1877F2"
-              />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify
-                icon="eva:twitter-fill"
-                color="#1C9CEA"
-              />
-            </Button>
           </Stack>
 
           <Divider sx={{ my: 3 }}>

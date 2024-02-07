@@ -7,7 +7,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { Iconify } from '../../components/iconify';
 
-export default function UserTableToolbar({ numSelected, filterName, onFilterName }) {
+export default function AdvertTableToolbar({ numSelected, filterName, onFilterName }) {
   return (
     <Toolbar
       sx={{
