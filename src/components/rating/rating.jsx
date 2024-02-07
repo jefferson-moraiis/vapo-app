@@ -8,7 +8,7 @@ export function RatingComponent({ onRating }) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    onRating(newValue); // Função para lidar com a mudança de valor, possivelmente enviando para uma API
+    onRating(newValue);
   };
 
   return (
@@ -17,7 +17,6 @@ export function RatingComponent({ onRating }) {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      textAlign: 'center',
     }}
     >
       <Typography mt={2} textAlign="justify" variant="text" component="legend">Avalie</Typography>

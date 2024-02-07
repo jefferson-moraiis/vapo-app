@@ -127,7 +127,7 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4" alignText="center">Entrar</Typography>
+          <Typography variant="h4" textAlign="center">Entrar</Typography>
 
           <Typography
             variant="body2"

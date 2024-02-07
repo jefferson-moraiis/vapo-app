@@ -81,23 +81,20 @@ export const AuthProvider = (props) => {
 
     initialized.current = true;
 
-    // eslint-disable-next-line no-shadow
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        // Usuário está autenticado
+    auth.onAuthStateChanged((userCredential) => {
+      if (userCredential) {
         const userData = {
-          id: user.uid,
+          id: userCredential.uid,
           avatar: '/assets/avatars/avatar-anika-visser.png',
-          name: user.displayName,
-          email: user.email,
+          name: userCredential.displayName,
+          email: userCredential.email,
         };
-
         dispatch({
           type: HANDLERS.INITIALIZE,
           payload: userData,
         });
+        setUser(userCredential);
       } else {
-        // Usuário não está autenticado
         dispatch({
           type: HANDLERS.INITIALIZE,
         });
@@ -113,7 +110,6 @@ export const AuthProvider = (props) => {
     try {
       const isAuthenticated = window.localStorage.setItem('authenticated', 'true');
       if (isAuthenticated && user !== null) {
-        console.log('🚀 ~ skip ~ user', user);
         const userData = {
           id: user.uid,
           avatar: '/assets/avatars/avatar-anika-visser.png',

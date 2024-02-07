@@ -166,7 +166,7 @@ export default function AdvertView() {
                 numberWhats={socialLinks.numberWhats}
                 email={socialLinks.email}
               />
-              <Box mt={2} mB={2} sx={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Box mt={2} mb={2} sx={{ alignItems: 'center', justifyContent: 'center' }}>
                 <IconButton>
                   <Chip
                     icon={<DiamondIcon />}
