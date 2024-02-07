@@ -25,7 +25,6 @@ import { Iconify } from '../../components/iconify';
 
 export default function LoginView() {
   const location = useLocation();
-  console.log('🚀 ~ handleLogin ~ location.state?.from?.pathname:', location.state);
   const theme = useTheme();
   const auth = useAuth();
   const router = useRouter();
@@ -35,13 +34,8 @@ export default function LoginView() {
   const handleLogin = async (e) => {
     e.preventDefault();
     await auth.signIn(email, password);
-    console.log(auth.isAuthenticated);
-
-    if (auth.isAuthenticated) {
-      const from = location.state?.from?.pathname || '/';
-      console.log('🚀 ~ handleLogin ~ from:', from);
-      router.push(from);
-    }
+    const from = location.state?.from?.pathname || '/';
+    router.push(from);
   };
 
   const renderForm = (

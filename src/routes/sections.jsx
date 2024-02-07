@@ -28,7 +28,7 @@ export default function Router() {
         { element: <IndexPage />, index: true },
         { path: 'adverts', element: <ProtectedRoute><AdvertsPage /></ProtectedRoute> },
         // { path: 'advert/:advertId/:advertName', element: <ProtectedRoute><AdvertPage /></ProtectedRoute> },
-        { path: 'advert', element: <AdvertPage /> },
+        { path: 'advert', element: <ProtectedRoute><AdvertPage /></ProtectedRoute> },
         { path: 'user', element: <ProtectedRoute><UserPage /></ProtectedRoute> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
