@@ -11,11 +11,11 @@ import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
+import CardActionArea from '@mui/material/CardActionArea';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
 import { Carousel } from '../../../components/carousel';
 
 const data = [
@@ -111,77 +111,80 @@ export default function AppView() {
         spacing={3}
       >
         {data.map((item, index) => (
+
           <Grid
             key={index}
             xs={12}
             sm={6}
             md={4}
           >
-            <Card sx={{ display: 'flex' }}>
-              <CardMedia
-                component="img"
-                sx={{ width: '40%', objectFit: 'cover' }}
-                image={item.icon}
-                alt="Live from space album cover"
-              />
-              <Box sx={{
-                display: 'flex', flexDirection: 'column', width: '60%', height: 200,
-              }}
-              >
-                <CardContent sx={{ flex: '1 0' }}>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    component="div"
-                  >
-                    {item.typeService}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{
-                      maxWidth: '100%',
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                    }}
-                  >
-                    {item.title}
-                  </Typography>
-                  <Typography
-                    variant="h4"
-                    color="text.secondary"
-                  >
-                    {item.commercialName}
-                  </Typography>
-                  <Typography variant="body2">
-                    {item.district}
-                    ,
-                    {item.city}
-                  </Typography>
-                </CardContent>
+            <CardActionArea onClick={() => navigate('/advert', { state: { item } })}>
+              <Card sx={{ display: 'flex' }}>
+                <CardMedia
+                  component="img"
+                  sx={{ width: '40%', objectFit: 'cover' }}
+                  image={item.icon}
+                  alt="Live from space album cover"
+                />
                 <Box sx={{
-                  display: 'flex', alignItems: 'center', pl: 1, pb: 1,
+                  display: 'flex', flexDirection: 'column', width: '60%', height: 200,
                 }}
                 >
-                  <IconButton>
-                    <Chip
-                      icon={<DiamondIcon />}
-                      label={item.diamonds}
-                    />
-                  </IconButton>
-                  <IconButton>
-                    <Chip
-                      icon={<VisibilityIcon />}
-                      label={item.views}
-                    />
+                  <CardContent sx={{ flex: '1 0' }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      component="div"
+                    >
+                      {item.typeService}
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        maxWidth: '100%',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      variant="h4"
+                      color="text.secondary"
+                    >
+                      {item.commercialName}
+                    </Typography>
+                    <Typography variant="body2">
+                      {item.district}
+                      ,
+                      {item.city}
+                    </Typography>
+                  </CardContent>
+                  <Box sx={{
+                    display: 'flex', alignItems: 'center', pl: 1, pb: 1,
+                  }}
+                  >
+                    <IconButton>
+                      <Chip
+                        icon={<DiamondIcon />}
+                        label={item.diamonds}
+                      />
+                    </IconButton>
+                    <IconButton>
+                      <Chip
+                        icon={<VisibilityIcon />}
+                        label={item.views}
+                      />
 
-                  </IconButton>
-                  <IconButton onClick={() => handleLikeClick(item, index)}>
-                    {likes[index] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                  </IconButton>
+                    </IconButton>
+                    <IconButton onClick={() => handleLikeClick(item, index)}>
+                      {likes[index] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    </IconButton>
+                  </Box>
                 </Box>
-              </Box>
-            </Card>
+              </Card>
+            </CardActionArea>
           </Grid>
         ))}
       </Grid>
