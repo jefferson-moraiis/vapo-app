@@ -4,8 +4,6 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -13,7 +11,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
-
 import { useLocation } from 'react-router-dom';
 
 import { useAuth } from '../../contexts';
@@ -23,26 +20,46 @@ import { useRouter } from '../../routes/hooks';
 import { bgGradient } from '../../theme/css';
 
 import { Logo } from '../../components/logo';
+import { SnackbarAlert } from '../../components/snackbarAlert';
 import { Iconify } from '../../components/iconify';
 
-export default function LoginView() {
+export default function RegisterView() {
   const location = useLocation();
   const theme = useTheme();
   const auth = useAuth();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
-  const handleLogin = async (e) => {
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarError, setSnackbarError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
+    if (password !== passwordConfirm) {
+      setSnackbarMessage('A senha e a confirmação da senha não coincidem.');
+      setSnackbarOpen(true);
+      return;
+    }
     try {
-      await auth.signIn(email, password);
+      await auth.signUp({
+        email, password, name, lastName,
+      });
+      setSnackbarMessage('Cadastro realizado com sucesso!');
+      setSnackbarOpen(true);
       const from = location.state?.from?.pathname || '/';
       router.push(from);
     } catch (error) {
-      console.error(error);
+      setSnackbarMessage(error.message);
+      setSnackbarError(true);
+      setSnackbarOpen(true);
     } finally {
       setLoading(false);
     }
@@ -51,6 +68,20 @@ export default function LoginView() {
   const renderForm = (
     <>
       <Stack spacing={3}>
+        <TextField
+          fullWidth
+          label="Nome"
+          variant="outlined"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          fullWidth
+          label="Sobrenome"
+          variant="outlined"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+        />
         <TextField
           fullWidth
           label="Email"
@@ -78,20 +109,27 @@ export default function LoginView() {
             ),
           }}
         />
-      </Stack>
-
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="flex-end"
-        sx={{ my: 3 }}
-      >
-        <Link
-          variant="subtitle2"
-          underline="hover"
-        >
-          Forgot password?
-        </Link>
+        <TextField
+          name="passwordConfirm"
+          label="Confirmar Senha"
+          type={showPasswordConfirm ? 'text' : 'password'}
+          value={passwordConfirm}
+          onChange={(e) => setPasswordConfirm(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                  edge="end"
+                >
+                  <Iconify icon={showPasswordConfirm ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          error={password !== passwordConfirm && passwordConfirm.length > 0}
+          helperText={password !== passwordConfirm && passwordConfirm > 0 ? 'As senhas não coincidem' : ''}
+        />
       </Stack>
 
       <LoadingButton
@@ -100,9 +138,10 @@ export default function LoginView() {
         type="submit"
         variant="contained"
         color="primary"
-        onClick={handleLogin}
+        sx={{ my: 3 }}
+        onClick={handleRegister}
       >
-        {loading ? <CircularProgress size={24} /> : 'Login'}
+        {loading ? <CircularProgress size={24} /> : 'Cadastrar'}
       </LoadingButton>
     </>
   );
@@ -137,25 +176,30 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4" textAlign="center">Entrar</Typography>
+          <Typography variant="h4" textAlign="center">Cadastrar</Typography>
 
           <Typography
             variant="body2"
             sx={{ mt: 2, mb: 5 }}
           >
-            Não tenho conta?
+            Já tenho conta?
             <Link
               variant="subtitle2"
               sx={{ ml: 0.5 }}
-              href="/register"
+              href="/login"
             >
-              Cadastre-se
+              Login
             </Link>
           </Typography>
-
           {renderForm}
         </Card>
       </Stack>
+      <SnackbarAlert
+        open={snackbarOpen}
+        message={snackbarMessage}
+        onClose={() => setSnackbarOpen(false)}
+        error={snackbarError}
+      />
     </Box>
   );
 }

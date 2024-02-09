@@ -49,5 +49,6 @@ module.exports = {
     'react/jsx-no-constructed-context-values': 'off',
     'react/jsx-filename-extension': 'off',
     'react/function-component-definition': 'off',
+    'react/no-unknown-property': 'off',
   },
 };

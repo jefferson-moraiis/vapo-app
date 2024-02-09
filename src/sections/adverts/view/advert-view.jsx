@@ -23,7 +23,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Modal from '@mui/material/Modal';
-
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import { useAuth } from '../../../contexts';
 import { PhoneMaskCustom, TelephoneMaskCustom } from '../../../components/mask';
 import { SocialMedia } from '../../../components/socialMedia';
 import { RatingComponent } from '../../../components/rating/rating';
@@ -55,8 +57,10 @@ const modalStyle = {
 };
 
 export default function AdvertView() {
+  const { user } = useAuth();
   const [adverts, setAdverts] = useState([]);
   const [like, setLike] = useState(false);
+  const [favorite, setFavorite] = useState(false);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -69,11 +73,21 @@ export default function AdvertView() {
       await sendLikeToApi(item);
     }
   };
+  const handleFavoriteClick = async (item) => {
+    setFavorite(!favorite);
+    console.log(favorite);
+    if (!favorite) {
+      await sendLikeToApi(item);
+    }
+  };
   const socialLinks = {
     urlFacebook: 'https://www.facebook.com',
     urlInstagram: 'https://www.instagram.com',
     linkSite: 'https://www.google.com',
     numberWhats: '550000000000',
+    addressMap: 'https://www.google.com/maps/search/?api=1&query=',
+    phone: '1145456868',
+    urlAdvert: 'xlabau',
   };
 
   const sendLikeToApi = async (item) => {
@@ -165,6 +179,9 @@ export default function AdvertView() {
                 linkSite={socialLinks.linkSite}
                 numberWhats={socialLinks.numberWhats}
                 email={socialLinks.email}
+                addressMap={socialLinks.addressMap}
+                phone={socialLinks.phone}
+                urlAdvert={socialLinks.urlAdvert}
               />
               <Box mt={2} mb={2} sx={{ alignItems: 'center', justifyContent: 'center' }}>
                 <IconButton>
@@ -181,7 +198,14 @@ export default function AdvertView() {
 
                 </IconButton>
                 <IconButton onClick={() => handleLikeClick(data)}>
-                  {like ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                  <Chip
+                    label={data.views}
+                    icon={like ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+                  />
+
+                </IconButton>
+                <IconButton onClick={() => handleFavoriteClick(data)}>
+                  {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                 </IconButton>
               </Box>
               <RatingComponent onRating={(rating) => console.log('Avaliação:', rating)} />

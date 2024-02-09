@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from '../layouts/dashboard';
-import { ProtectedRoute } from './routerPrivate';
+import { ProtectedRoute, PublicRoute } from './routerPrivate';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const BlogPage = lazy(() => import('../pages/blog'));
@@ -13,6 +13,7 @@ export const ProductsPage = lazy(() => import('../pages/products'));
 export const Page404 = lazy(() => import('../pages/page-not-found'));
 export const AddAdvertsPage = lazy(() => import('../pages/formAdvert'));
 export const AdvertPage = lazy(() => import('../pages/advert'));
+export const RegisterPage = lazy(() => import('../pages/register'));
 
 export default function Router() {
   const routes = useRoutes([
@@ -27,7 +28,6 @@ export default function Router() {
       children: [
         { element: <IndexPage />, index: true },
         { path: 'adverts', element: <ProtectedRoute><AdvertsPage /></ProtectedRoute> },
-        // { path: 'advert/:advertId/:advertName', element: <ProtectedRoute><AdvertPage /></ProtectedRoute> },
         { path: 'advert', element: <AdvertPage /> },
         { path: 'user', element: <ProtectedRoute><UserPage /></ProtectedRoute> },
         { path: 'products', element: <ProductsPage /> },
@@ -38,6 +38,10 @@ export default function Router() {
     {
       path: 'login',
       element: <LoginPage />,
+    },
+    {
+      path: 'register',
+      element: <PublicRoute><RegisterPage /></PublicRoute>,
     },
     {
       path: '404',

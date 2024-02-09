@@ -24,13 +24,10 @@ import { Scrollbar } from '../../components/scrollbar';
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
-const authenticatedUser = {
-  displayName: 'Admin User',
-  role: 'user', // Este usuário é um administrador
-};
-
 export default function Nav({ openNav, onCloseNav }) {
-  const { logout } = useAuth();
+  const { logOut, user, isAuthenticated } = useAuth();
+  console.log('🚀 ~ Nav ~ user:', user);
+
   const pathname = usePathname();
   const upLg = useResponsive('up', 'lg');
 
@@ -40,37 +37,6 @@ export default function Nav({ openNav, onCloseNav }) {
     }
   }, [pathname]);
 
-  const renderAccount = (
-    <Box
-      sx={{
-        my: 3,
-        mx: 2.5,
-        py: 2,
-        px: 2.5,
-        display: 'flex',
-        borderRadius: 1.5,
-        alignItems: 'center',
-        bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
-      }}
-    >
-      <Avatar
-        src={account.photoURL}
-        alt="photoURL"
-      />
-
-      <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
-
-        <Typography
-          variant="body2"
-          sx={{ color: 'text.secondary' }}
-        >
-          {account.role}
-        </Typography>
-      </Box>
-    </Box>
-  );
-
   const renderMenu = (
     <Stack
       component="nav"
@@ -78,9 +44,8 @@ export default function Nav({ openNav, onCloseNav }) {
       sx={{ px: 2 }}
     >
       {navConfig.filter((item) => {
-        // Filtrar itens com base na necessidade de autenticação e na função do usuário
-        if (item.requiresAuth && !authenticatedUser) return false;
-        if (item.requiredRole && (!authenticatedUser || authenticatedUser.role !== item.requiredRole)) return false;
+        if (item.requiresAuth && !isAuthenticated) return false;
+        if (item.requiredRole && (!isAuthenticated || isAuthenticated.role !== item.requiredRole)) return false;
         return true;
       }).map((item) => (
         <NavItem
@@ -96,10 +61,10 @@ export default function Nav({ openNav, onCloseNav }) {
       <Button
         fullWidth
         color="primary"
-        onClick={logout}
+        onClick={logOut}
         startIcon={<LogoutIcon />}
       >
-        Logout
+        Sair
       </Button>
     </Box>
   );
@@ -116,8 +81,55 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Logo sx={{ mt: 3, ml: 4 }} />
+      {user ? (
+        <Box
+          sx={{
+            my: 3,
+            mx: 2.5,
+            py: 2,
+            px: 2.5,
+            display: 'flex',
+            borderRadius: 1.5,
+            alignItems: 'center',
+            bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+          }}
+        >
+          <Avatar
+            src={user.photoURL}
+            alt="photoURL"
+          />
 
-      {renderAccount}
+          <Box sx={{ ml: 2 }}>
+            <Typography variant="subtitle2">{user.name}</Typography>
+
+            <Typography
+              variant="body2"
+              sx={{ color: 'text.secondary' }}
+            >
+              {user.statusPayment === 'payment' ? 'Assinante' : 'Visitante'}
+            </Typography>
+          </Box>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            my: 3,
+            mx: 2.5,
+            py: 2,
+            px: 2.5,
+            display: 'flex',
+            borderRadius: 1.5,
+            alignItems: 'center',
+            bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+          }}
+        >
+
+          <Box sx={{ ml: 2 }}>
+            <Typography variant="subtitle2" color="primary" component={RouterLink} to="/login">Faça Login ou Cadastre</Typography>
+          </Box>
+        </Box>
+
+      )}
 
       {renderMenu}
 

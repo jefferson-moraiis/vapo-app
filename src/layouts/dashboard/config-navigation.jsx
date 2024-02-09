@@ -33,11 +33,17 @@ const navConfig = [
     requiresAuth: true,
   },
   {
-    title: 'usuarios',
+    title: 'Usuários',
     path: '/user',
     icon: icon('ic_user'),
-    requiresAuth: false,
+    requiresAuth: true,
     requiredRole: 'admin',
+  },
+  {
+    title: 'Sobre',
+    path: '/about',
+    icon: icon('ic_about'),
+    requiresAuth: false,
   },
   // {
   //   title: 'product',

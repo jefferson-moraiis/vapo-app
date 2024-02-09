@@ -4,11 +4,13 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
-
+import Avatar from '@mui/material/Avatar';
+import { useNavigate } from 'react-router-dom';
 import { useResponsive } from '../../hooks/use-responsive';
 
 import { bgBlur } from '../../theme/css';
 import { account } from '../../_mock/account';
+import { useAuth } from '../../contexts';
 
 import { Iconify } from '../../components/iconify';
 
@@ -18,6 +20,8 @@ import AccountPopover from './common/account-popover';
 import NotificationsPopover from './common/notifications-popover';
 
 export default function Header({ onOpenNav }) {
+  const navigate = useNavigate(); // Hook do React Router para navegação
+  const { logOut, user, isAuthenticated } = useAuth();
   const theme = useTheme();
 
   const lgUp = useResponsive('up', 'lg');
@@ -37,14 +41,20 @@ export default function Header({ onOpenNav }) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      {account && (
+      {!user && (
         <Stack
           direction="row"
           alignItems="center"
           spacing={1}
         >
-          <NotificationsPopover />
-          <AccountPopover />
+          <Avatar
+            onClick={() => {
+              navigate('/login'); // Navega para a página de login
+            }}
+            sx={{ cursor: 'pointer' }}
+          >
+            {/* Você pode colocar iniciais ou um ícone dentro do Avatar se quiser */}
+          </Avatar>
         </Stack>
       )}
     </>

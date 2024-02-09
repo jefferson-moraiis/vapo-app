@@ -11,3 +11,14 @@ export const ProtectedRoute = ({ children }) => {
 
   return children;
 };
+
+export function PublicRoute({ children }) {
+  const { isAuthenticated, user } = useAuth();
+  console.log('🚀 ~ PublicRoute ~ user:', user);
+  console.log('🚀 ~ PublicRoute ~ isAuthenticated:', isAuthenticated);
+  const location = useLocation();
+  if (isAuthenticated) {
+    return <Navigate to="/" replace state={{ from: location }} />;
+  }
+  return children;
+}

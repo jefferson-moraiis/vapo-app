@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -16,10 +16,6 @@ import DiamondIcon from '@mui/icons-material/Diamond';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-
-import axios from 'axios';
 import { Carousel } from '../../../components/carousel';
 
 const data = [
@@ -71,33 +67,9 @@ const style = {
   transform: 'translateX(-50%)',
 };
 
-async function getZipCode(latitude, longitude) {
-  const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=f52ff83e13da4d1a8cd82078fd6643de`);
-  const result = await response.json();
-  const { postcode } = result.results[0].components;
-  return postcode;
-}
-const fetchCepData = async (cepNumber) => {
-  const result = await axios.get(`https://viacep.com.br/ws/${cepNumber}/json`);
-  return result;
-};
-
 export default function AppView() {
   const navigate = useNavigate();
   const [likes, setLikes] = useState({});
-  const [favorites, setFavorites] = useState({});
-  const [informacoes, setInformacoes] = useState([]);
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const { latitude } = position.coords;
-      const { longitude } = position.coords;
-      const cep = await getZipCode(latitude, longitude);
-      const response = await fetchCepData(cep);
-
-      setInformacoes(response);
-    });
-  }, []);
   const handleLikeClick = async (item, index) => {
     const isLiked = !likes[index];
     setLikes((prevLikes) => ({
@@ -106,17 +78,6 @@ export default function AppView() {
     }));
 
     if (isLiked) {
-      await sendLikeToApi(item);
-    }
-  };
-  const handleFavoriteClick = async (item, index) => {
-    const isFavorite = !favorites[index];
-    setFavorites((prevFavorites) => ({
-      ...prevFavorites,
-      [index]: isFavorite,
-    }));
-
-    if (isFavorite) {
       await sendLikeToApi(item);
     }
   };
@@ -145,12 +106,10 @@ export default function AppView() {
   return (
     <Container maxWidth="xl">
       <Carousel />
-
       <Grid
         container
         spacing={3}
       >
-
         {data.map((item, index) => (
 
           <Grid
@@ -159,21 +118,18 @@ export default function AppView() {
             sm={6}
             md={4}
           >
-            <Card sx={{ display: 'flex' }}>
-              <CardActionArea onClick={() => navigate('/advert', { state: { item } })}>
+            <CardActionArea onClick={() => navigate('/advert', { state: { item } })}>
+              <Card sx={{ display: 'flex' }}>
                 <CardMedia
                   component="img"
                   sx={{ width: '40%', objectFit: 'cover' }}
                   image={item.icon}
                   alt="Live from space album cover"
                 />
-              </CardActionArea>
-
-              <Box sx={{
-                display: 'flex', flexDirection: 'column', width: '60%', height: 200,
-              }}
-              >
-                <CardActionArea onClick={() => navigate('/advert', { state: { item } })}>
+                <Box sx={{
+                  display: 'flex', flexDirection: 'column', width: '60%', height: 200,
+                }}
+                >
                   <CardContent sx={{ flex: '1 0' }}>
                     <Typography
                       variant="body2"
@@ -205,31 +161,30 @@ export default function AppView() {
                       {item.city}
                     </Typography>
                   </CardContent>
-                </CardActionArea>
-                <Box sx={{
-                  display: 'flex', alignItems: 'center', pl: 1, pb: 1,
-                }}
-                >
-                  <IconButton>
-                    <Chip
-                      icon={<VisibilityIcon />}
-                      label={item.views}
-                    />
+                  <Box sx={{
+                    display: 'flex', alignItems: 'center', pl: 1, pb: 1,
+                  }}
+                  >
+                    <IconButton>
+                      <Chip
+                        icon={<DiamondIcon />}
+                        label={item.diamonds}
+                      />
+                    </IconButton>
+                    <IconButton>
+                      <Chip
+                        icon={<VisibilityIcon />}
+                        label={item.views}
+                      />
 
-                  </IconButton>
-                  <IconButton onClick={() => handleLikeClick(item, index)}>
-                    <Chip
-                      label={item.views}
-                      icon={likes[index] ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
-                    />
-
-                  </IconButton>
-                  <IconButton onClick={() => handleFavoriteClick(item, index)}>
-                    {favorites[index] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                  </IconButton>
+                    </IconButton>
+                    <IconButton onClick={() => handleLikeClick(item, index)}>
+                      {likes[index] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    </IconButton>
+                  </Box>
                 </Box>
-              </Box>
-            </Card>
+              </Card>
+            </CardActionArea>
           </Grid>
         ))}
       </Grid>
